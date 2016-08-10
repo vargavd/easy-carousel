@@ -1,0 +1,28 @@
+{
+    "extends": ["strict/es5", "strict/browser"],
+
+    "globals": {
+        "console": true,
+        "debugger": true,
+        "$": true,
+        "jQuery": true
+    },
+  
+    "rules": {
+        "func-names": 0,
+        "id-match": 0,
+        "id-length": 0,
+        "padded-blocks": 0,
+        "indent": 0,
+        "one-var": 0,
+        "newline-after-var": 0,
+        "no-trailing-spaces": 0,
+        "func-style": 0,
+        "comma-dangle": 0,
+        "init-declarations": 0,
+        "max-len": 0,
+        "brace-style": 0,
+        "no-extend-native": 0,
+        
+   }
+}

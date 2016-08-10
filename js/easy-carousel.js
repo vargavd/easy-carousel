@@ -1,37 +1,39 @@
 /*
  * Easy Carousel v0.1
  * A simple image carousel plugin, powered by jQuery.
- * 
+ *
  * License: GPL2
  * made by VvD
  */
 
+'use strict';
+
 (function ($, factory) {
-    
+
     if (typeof module === 'object' && typeof module.exports === 'object') {
         module.exports = function () {
             return factory($);
-        }
+        };
     } else {
         factory($);
     }
-    
+
 }(jQuery, function ($) {
-    var 
+    var
         // settings
         defaultSettings = {
-            wrapperBorderColor: "1px solid gray",
-            wrapperPadding: "10px",
-            wrapperBackground: "black",
-            imgWidth: "100px",
-            imgSpace: "10px",
-            imgBorder: "10px solid white",
-            buttonWidth: "50px",
-            buttonHeight: "25px",
-            buttonBorder: "1px solid #bbb",
-            buttonBackground: "rgba(255, 255, 255, 0.6)",
-            buttonHoverBackground: "white",
-            buttonHoverBorder: "1px solid #bbb"
+            wrapperBorderColor: '1px solid gray',
+            wrapperPadding: '10px',
+            wrapperBackground: 'black',
+            imgWidth: '100px',
+            imgSpace: '10px',
+            imgBorder: '10px solid white',
+            buttonWidth: '50px',
+            buttonHeight: '25px',
+            buttonBorder: '1px solid #bbb',
+            buttonBackground: 'rgba(255, 255, 255, 0.6)',
+            buttonHoverBackground: 'white',
+            buttonHoverBorder: '1px solid #bbb'
         },
         
         // helper functions
@@ -47,43 +49,45 @@
                 addStyle = function () {
                     var parts;
                     
-                    // if called: addStyle("color: white")
-                    if (arguments.length === 1 && typeof arguments[0] === "string" && arguments[0].includes(":")) {
+                    // you can call addStyle with 3 mode
+                    //      addStyle('color: white')
+                    //      addStyle('color', 'white')
+                    //      addStyle(['color', 'white'], ['font-size', '12px'])
+                    
+                    if (arguments.length === 1 && typeof arguments[0] === 'string' && arguments[0].includes(':')) {
                         
-                        parts = arguments[0].split(":");
-                        styles[parts[0].trim()] = parts[1].replace(/;/g, "").trim();
+                        parts = arguments[0].split(':');
+                        styles[parts[0].trim()] = parts[1].replace(/;/g, '').trim();
                         
                     } 
                     
-                    // if called: addStyle("color", "white")
-                    else if (arguments.length === 2 && typeof arguments[0] === "string" && typeof arguments[0] === "string") {
+                    else if (arguments.length === 2 && typeof arguments[0] === 'string' && typeof arguments[0] === 'string') {
                         
                         styles[arguments[0].trim()] = arguments[1].trim();
                         
                     } 
                     
-                    // if called: addStyle(["color", "white"], ["font-size", "12px"])
                     else {
                         $.each(arguments, function (index, arg) {
-                            if (!isArray(arg) || typeof arg[0] !== "string" || typeof arg[1] !== "string") {
+                            if (!isArray(arg) || typeof arg[0] !== 'string' || typeof arg[1] !== 'string') {
                                 return;
                             }
                             
-                            styles[arg[0].trim()] = arg[1].replaceAll(";", "").trim();
-                        })
+                            styles[arg[0].trim()] = arg[1].replaceAll(';', '').trim();
+                        });
                     }
                 },
                 getString = function () {
-                    var string = "style: ";
+                    var styleString = 'style=';
                     
                     $.each(styles, function (index, style) {
-                        
+                        styleString += index + ': ' + style + ';';
                     });
                     
-                    return string;
+                    return styleString;
                 };
             
-            if (typeof defaultStyles === "object" && defaultStyles instanceof Array) {
+            if (typeof defaultStyles === 'object' && defaultStyles instanceof Array) {
                 $.each(defaultStyles, function (index, style) {
                     addStyle(style);
                 });
@@ -104,24 +108,24 @@
     }
     
     if (!String.prototype.includes) {
-        String.prototype.includes = function(search, start) {
-            'use strict';
+        String.prototype.includes = function (search, start) {
+            
             if (typeof start !== 'number') {
                 start = 0;
             }
 
             if (start + search.length > this.length) {
                 return false;
-            } else {
-                return this.indexOf(search, start) !== -1;
             }
+            
+            return this.indexOf(search, start) >= 0;
         };
     }
     
     if (!String.prototype.replaceAll) {
         String.prototype.replaceAll = function (target, value) {
             return this.split(target).join(value);
-        }
+        };
     }
     
     
