@@ -5,7 +5,7 @@
         "console": true,
         "debugger": true,
         "$": true,
-        "jQuery": true
+        "jQuery": true,
     },
   
     "rules": {
@@ -23,6 +23,6 @@
         "max-len": 0,
         "brace-style": 0,
         "no-extend-native": 0,
-        
+        "no-negated-condition": 0,
    }
 }

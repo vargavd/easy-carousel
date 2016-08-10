@@ -11,7 +11,7 @@
 (function ($, factory) {
 
     if (typeof module === 'object' && typeof module.exports === 'object') {
-        module.exports = function () {
+        module.exports = function () {            
             return factory($);
         };
     } else {
@@ -57,13 +57,13 @@
                     if (arguments.length === 1 && typeof arguments[0] === 'string' && arguments[0].includes(':')) {
                         
                         parts = arguments[0].split(':');
-                        styles[parts[0].trim()] = parts[1].replace(/;/g, '').trim();
+                        styles.push([ parts[0].trim(), parts[1].replaceAll(';', '').trim() ]);
                         
                     } 
                     
                     else if (arguments.length === 2 && typeof arguments[0] === 'string' && typeof arguments[0] === 'string') {
                         
-                        styles[arguments[0].trim()] = arguments[1].trim();
+                        styles.push([ arguments[0].trim(), arguments[1].trim() ]);
                         
                     } 
                     
@@ -73,17 +73,22 @@
                                 return;
                             }
                             
-                            styles[arg[0].trim()] = arg[1].replaceAll(';', '').trim();
+                            styles.push([ arg[0].trim(), arg[1].trim() ]);
                         });
                     }
-                },
-                getString = function () {
-                    var styleString = 'style=';
                     
+                },
+                getStyle = function () {
+                    var styleString = '';
+
                     $.each(styles, function (index, style) {
-                        styleString += index + ': ' + style + ';';
+                        styleString += style[0] + ': ' + style[1] + '; ';
                     });
                     
+                    if (styles.length !== 0) {
+                        styleString = 'style="' + styleString.trim() + '"';
+                    }
+                            
                     return styleString;
                 };
             
@@ -95,7 +100,7 @@
             
             return {
                 addStyle: addStyle,
-                getString: getString
+                getStyle: getStyle
             };
         };
     
@@ -128,10 +133,15 @@
         };
     }
     
-    
     // actual plugin
     $.fn.easyCarousel = function (settings) {
         $.extend(settings, defaultSettings);
     };
+    
+    // ONLY FOR TEST
+    return {
+        StyleMaker: StyleMaker
+    };
+    // ONLY FOR TEST END
 }));
 
