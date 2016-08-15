@@ -22,12 +22,13 @@
     var
         // settings
         defaultSettings = {
-            wrapperBorderColor: '1px solid gray',
+            wrapperBorder: '1px solid gray',
             wrapperPadding: '10px',
             wrapperBackground: 'black',
             imgWidth: '100px',
             imgSpace: '10px',
             imgBorder: '10px solid white',
+            visibleImgCount: 4,
             buttonWidth: '50px',
             buttonHeight: '25px',
             buttonBorder: '1px solid #bbb',
@@ -41,18 +42,15 @@
             return Object.prototype.toString.call(arg) === '[object Array]';
         },
         
-        // inline style maker constructor
-        StyleMaker = function (defaultStyles) {
+        // inline style maker constructor, you can give any number of style:
+        //      ('color: white')
+        //      ('color: white', 'font-size: 12px')
+        StyleMaker = function () {
             var styles = [],
                     
                 // functions
                 addStyle = function () {
                     var parts;
-                    
-                    // you can call addStyle with 3 mode
-                    //      addStyle('color: white')
-                    //      addStyle('color', 'white')
-                    //      addStyle(['color', 'white'], ['font-size', '12px'])
                     
                     if (arguments.length === 1 && typeof arguments[0] === 'string' && arguments[0].includes(':')) {
                         
@@ -65,18 +63,7 @@
                         
                         styles.push([ arguments[0].trim(), arguments[1].trim() ]);
                         
-                    } 
-                    
-                    else {
-                        $.each(arguments, function (index, arg) {
-                            if (!isArray(arg) || typeof arg[0] !== 'string' || typeof arg[1] !== 'string') {
-                                return;
-                            }
-                            
-                            styles.push([ arg[0].trim(), arg[1].trim() ]);
-                        });
                     }
-                    
                 },
                 getStyle = function () {
                     var styleString = '';
@@ -90,20 +77,21 @@
                     }
                             
                     return styleString;
+                },
+                reset = function () {
+                    styles = [];
                 };
             
-            if (typeof defaultStyles === 'object' && defaultStyles instanceof Array) {
-                $.each(defaultStyles, function (index, style) {
-                    addStyle(style);
-                });
-            }
+            $.each(arguments, function (index, arg) {
+                addStyle(arg);
+            });
             
             return {
                 addStyle: addStyle,
-                getStyle: getStyle
+                getStyle: getStyle,
+                reset: reset
             };
         };
-    
     
     // polyfills
     if (!String.prototype.trim) {
@@ -135,13 +123,120 @@
     
     // actual plugin
     $.fn.easyCarousel = function (settings) {
+        var 
+            // DOM elements
+            $wrapper = $(this),
+            $imgWrapper = $('<div>'),
+            $imgList = $('<ul>'),
+            $buttonLeft = $('<button>'),
+            $buttonRight = $('<button>'),
+            
+            // imgs
+            $imgs = $wrapper.find('img').detach(),
+                    
+            // Style Maker
+            sm = new StyleMaker();
+            
         $.extend(settings, defaultSettings);
+        
+        // make the DOM
+        $wrapper.append($imgWrapper.append($imgList), $buttonLeft, $buttonRight);
+        
+        // insert images and style them
+        $imgs.each(function () {
+            var $img = $(this),
+                $li;
+            
+            $li = $('<li>').append($img);
+            
+            sm.reset();
+            sm.addStyle('float',         'left');
+            sm.addStyle('overflow',      'hidden');
+            sm.addStyle('padding-right', settings.imgSpace);
+            $li.attr('style', sm.getStyle());
+            
+            sm.reset();
+            sm.addStyle('width',  '100%');
+            sm.addStyle('border', settings.imgBorder);
+            sm.addStyle('box-sizing', 'border-box');
+            $img.attr('style', sm.getStyle());
+            
+            $imgList.append($li);
+        });
+        
+        // style wrapper
+        sm.addStyle('border',      settings.wrapperBorder);
+        sm.addStyle('padding',     settings.wrapperPadding);
+        sm.addStyle('background',  settings.wrapperBackground);
+        $wrapper.attr('style', sm.getStyle());
+        
+        // style images wrapper
+        $imgWrapper.attr('style', 'overflow: hidden;');
+        
+        // style img list
+        sm.reset();
+        sm.addStyle('padding',              '0');
+        sm.addStyle('margin',               '0');
+        sm.addStyle('list-style-type',      '0');
+        sm.addStyle('-webkit-box-shadow',   '0px 0px 17px 0px rgba(0, 0, 0, 0.7)');
+        sm.addStyle('-moz-box-shadow',      '0px 0px 17px 0px rgba(0, 0, 0, 0.7)');
+        sm.addStyle('box-shadow',           '0px 0px 17px 0px rgba(0, 0, 0, 0.7)');
+        $imgList.ttr('style', sm.getStyle());
+        
+        // style buttons
+        sm.reset();
+        sm.addStyle('position',         'absolute');
+        sm.addStyle('left',             '50%');
+        sm.addStyle('top',              '122px');
+        sm.addStyle('border',           settings.buttonBorder);
+        sm.addStyle('background-color', settings.buttonBackground);
+        sm.addStyle('cursor',           'pointer');
+        sm.addStyle('width',            settings.buttonWidth);
+        sm.addStyle('height',           settings.buttonHeight);
+        sm.addStyle('padding',          '0');
+        sm.addStyle('margin-left',      '-59px');
+        $buttonLeft.attr('style', sm.getStyle());
+        
+        sm.addStyle('margin-left', '10px');
+        $buttonRight.attr('style', sm.getStyle());
+        
+        $($buttonLeft, $buttonRight).mouseenter(function () {
+            var $button = $(this);
+            
+            sm.reset();
+            sm.addStyle('position',         'absolute');
+            sm.addStyle('left',             '50%');
+            sm.addStyle('top',              '122px');
+            sm.addStyle('border',           settings.buttonHoverBorder);
+            sm.addStyle('background-color', settings.buttonHoverBackground);
+            sm.addStyle('cursor',           'pointer');
+            sm.addStyle('width',            settings.buttonWidth);
+            sm.addStyle('height',           settings.buttonHeight);
+            sm.addStyle('padding',          '0');
+            sm.addStyle('margin-left',      '-59px');
+            $button.attr('style', sm.getStyle());
+        });
+        $($buttonLeft, $buttonRight).mouseleave(function () {
+            var $button = $(this);
+            
+            sm.reset();
+            sm.addStyle('position',         'absolute');
+            sm.addStyle('left',             '50%');
+            sm.addStyle('top',              '122px');
+            sm.addStyle('border',           settings.buttonBorder);
+            sm.addStyle('background-color', settings.buttonBackground);
+            sm.addStyle('cursor',           'pointer');
+            sm.addStyle('width',            settings.buttonWidth);
+            sm.addStyle('height',           settings.buttonHeight);
+            sm.addStyle('padding',          '0');
+            sm.addStyle('margin-left',      '-59px');
+            $button.attr('style', sm.getStyle());
+        });
     };
     
     // ONLY FOR TEST
     return {
         StyleMaker: StyleMaker
     };
-    // ONLY FOR TEST END
 }));
 

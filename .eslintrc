@@ -24,5 +24,7 @@
         "brace-style": 0,
         "no-extend-native": 0,
         "no-negated-condition": 0,
+        "no-multi-spaces": 0,
+        "no-invalid-this": 0
    }
 }
