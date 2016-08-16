@@ -25,6 +25,10 @@
         "no-extend-native": 0,
         "no-negated-condition": 0,
         "no-multi-spaces": 0,
-        "no-invalid-this": 0
+        "no-invalid-this": 0,
+        "one-var-declaration-per-line": 0,
+        "radix": 0,
+        "array-bracket-spacing": 0,
+        "no-magic-numbers": 0
    }
 }
