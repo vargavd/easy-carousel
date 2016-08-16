@@ -34,9 +34,9 @@ body {
 }
 .easy-carousel .easy-carousel-images-wrapper ul li {
   float: left;
+  overflow: hidden;
   width: 180px;
   padding-right: 10px;
-  overflow: hidden;
 }
 .easy-carousel .easy-carousel-images-wrapper ul li img {
   width: 100%;

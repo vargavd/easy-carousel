@@ -6,14 +6,14 @@ describe('StyleMaker', function () {
         var sm = ecTest.StyleMaker('color: white'),
             result = sm.getStyle();
         
-        expect(result).toBe('style="color: white;"');
+        expect(result).toBe('color: white;');
     });
     
     it('can accept more style in its constructor', function () {
         var sm = ecTest.StyleMaker('color: white', 'font-weight: bold'),
             result = sm.getStyle();
         
-        expect(result).toBe('style="color: white; font-weight: bold;"');
+        expect(result).toBe('color: white; font-weight: bold;');
     });
     
     it('can reset styles', function () {
@@ -26,7 +26,7 @@ describe('StyleMaker', function () {
         sm.addStyle('overflow: hidden');
         result = sm.getStyle();
         
-        expect(result).toBe('style="color: blue; padding: 10px; overflow: hidden;"');
+        expect(result).toBe('color: blue; padding: 10px; overflow: hidden;');
     });
     
     describe('addStyle', function () {
@@ -43,7 +43,7 @@ describe('StyleMaker', function () {
             sm.addStyle('position: relative');
             result = sm.getStyle();
             
-            expect(result).toBe('style="color: white; position: relative;"');
+            expect(result).toBe('color: white; position: relative;');
         });
         
         it('can accept a style in two param', function () {
@@ -55,7 +55,7 @@ describe('StyleMaker', function () {
             sm.addStyle('padding',     '20px');
             result = sm.getStyle();
             
-            expect(result).toBe('style="color: red; font-weight: bold; background: black; padding: 20px;"');
+            expect(result).toBe('color: red; font-weight: bold; background: black; padding: 20px;');
         });
     });
 });

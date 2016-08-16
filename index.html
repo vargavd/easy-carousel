@@ -12,14 +12,11 @@ and open the template in the editor.
         
         <!-- 3rd party js -->
         <script src="https://code.jquery.com/jquery-1.12.4.min.js"></script>
-        
-        <!-- Easy Carousel default styles -->
-        <link href="css/easy-carousel.css" rel="stylesheet" type="text/css" />
     </head>
-    <body>
-        <div id="wrapper">
+    <body style="background-color: #333; height: 100%;">
+        <div style="width: 800px; height: 200px; margin: 50px auto;">
             <div class="easy-carousel">
-                <div class="easy-carousel-images-wrapper">
+                <div>
                     <ul>
                         <li>
                             <img src="imgs/ec-img-2.jpg" alt="Ez a második kép" />
@@ -45,5 +42,10 @@ and open the template in the editor.
         
         <!-- Easy Carousel -->
         <script src="js/easy-carousel.js"></script>
+        <script>
+            $(function () {
+                $('.easy-carousel').easyCarousel();
+            });
+        </script>
     </body>
 </html>

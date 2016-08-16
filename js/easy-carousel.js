@@ -71,12 +71,8 @@
                     $.each(styles, function (index, style) {
                         styleString += style[0] + ': ' + style[1] + '; ';
                     });
-                    
-                    if (styles.length !== 0) {
-                        styleString = 'style="' + styleString.trim() + '"';
-                    }
                             
-                    return styleString;
+                    return styleString.trim();
                 },
                 reset = function () {
                     styles = [];
@@ -137,10 +133,13 @@
             // Style Maker
             sm = new StyleMaker();
             
-        $.extend(settings, defaultSettings);
+        settings = $.extend({}, settings, defaultSettings);
+        
+        // clear the wrapper
+        $wrapper.empty();
         
         // make the DOM
-        $wrapper.append($imgWrapper.append($imgList), $buttonLeft, $buttonRight);
+        $wrapper.append($imgWrapper.append($imgList), $buttonLeft.text('<<'), $buttonRight.text('>>'));
         
         // insert images and style them
         $imgs.each(function () {
@@ -153,11 +152,12 @@
             sm.addStyle('float',         'left');
             sm.addStyle('overflow',      'hidden');
             sm.addStyle('padding-right', settings.imgSpace);
+            sm.addStyle('width',         '180px');
             $li.attr('style', sm.getStyle());
             
             sm.reset();
-            sm.addStyle('width',  '100%');
-            sm.addStyle('border', settings.imgBorder);
+            sm.addStyle('width',      '100%');
+            sm.addStyle('border',     settings.imgBorder);
             sm.addStyle('box-sizing', 'border-box');
             $img.attr('style', sm.getStyle());
             
@@ -165,9 +165,13 @@
         });
         
         // style wrapper
+        sm.reset();
+        sm.addStyle('position',    'relative');
+        sm.addStyle('width',       '750px');
+        sm.addStyle('height',      '111px');
         sm.addStyle('border',      settings.wrapperBorder);
-        sm.addStyle('padding',     settings.wrapperPadding);
         sm.addStyle('background',  settings.wrapperBackground);
+        sm.addStyle('padding',     settings.wrapperPadding);
         $wrapper.attr('style', sm.getStyle());
         
         // style images wrapper
@@ -175,13 +179,15 @@
         
         // style img list
         sm.reset();
+        sm.addStyle('width',                '1200px');
+        sm.addStyle('height',               '100%');
         sm.addStyle('padding',              '0');
         sm.addStyle('margin',               '0');
         sm.addStyle('list-style-type',      '0');
         sm.addStyle('-webkit-box-shadow',   '0px 0px 17px 0px rgba(0, 0, 0, 0.7)');
         sm.addStyle('-moz-box-shadow',      '0px 0px 17px 0px rgba(0, 0, 0, 0.7)');
         sm.addStyle('box-shadow',           '0px 0px 17px 0px rgba(0, 0, 0, 0.7)');
-        $imgList.ttr('style', sm.getStyle());
+        $imgList.attr('style', sm.getStyle());
         
         // style buttons
         sm.reset();
@@ -232,6 +238,8 @@
             sm.addStyle('margin-left',      '-59px');
             $button.attr('style', sm.getStyle());
         });
+        
+        
     };
     
     // ONLY FOR TEST
