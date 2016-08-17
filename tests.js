@@ -37,7 +37,7 @@ describe('StyleMaker', function () {
         });
         
         it('can accept a style in one param', function () {
-            var result = '';
+            var result;
             
             sm.addStyle('color: white');
             sm.addStyle('position: relative');
@@ -47,7 +47,7 @@ describe('StyleMaker', function () {
         });
         
         it('can accept a style in two param', function () {
-            var result = '';
+            var result;
             
             sm.addStyle('color',       'red');
             sm.addStyle('font-weight', 'bold');
@@ -56,6 +56,33 @@ describe('StyleMaker', function () {
             result = sm.getStyle();
             
             expect(result).toBe('color: red; font-weight: bold; background: black; padding: 20px;');
+        });
+    });
+    
+    describe('reset', function () {
+        var sm;
+        
+        beforeEach(function () {
+            sm = new ecTest.StyleMaker('color: red', 'padding: 5px', 'background: white');
+        });
+        
+        it('can reset the styles to zero', function () {
+            var result;
+            
+            sm.reset();
+            result = sm.getStyle();
+            
+            expect(result).toBe('');
+        });
+        
+        it('can accept style attribute value', function () {
+            var result;
+            
+            sm.reset('color: blue; padding: 10px; overflow: hidden;');
+            sm.addStyle('margin', '10px 20px');
+            result = sm.getStyle();
+            
+            expect(result).toBe('color: blue; padding: 10px; overflow: hidden; margin: 10px 20px;');
         });
     });
 });

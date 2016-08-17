@@ -10,6 +10,55 @@ and open the template in the editor.
         <meta charset="UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         
+        <style type="text/css">
+            .modal-bg {
+                position: absolute;
+                height: 100%;
+                width: 100%;
+                top: 0;
+                left: 0;
+                display: table;
+                background-color: rgba(0, 0, 0, 0.8);
+            }
+            
+            .modal-positioning {
+                display: table-cell;
+                height: 100%;
+                vertical-align: middle;
+                text-align: center;
+            }
+            
+            .modal-window {
+                background: white;
+                border: 1px solid white;
+                width: 70%;
+                margin: 0 auto;
+            }
+            
+            .modal-window img {
+                width: 100%;
+            }
+            
+            .modal-caption {
+                font-size: 20px;
+                color: #888;
+            }
+            
+            .modal-caption strong {
+                color: #666;
+            }
+            
+            .modal-window button {
+                margin: 5px 20px;
+                font-weight: bold;
+                color: #ddd;
+                background: #666;
+                border: 1px solid #333;
+                cursor: pointer;
+                padding: 3px 7px;
+            }
+        </style>
+        
         <!-- 3rd party js -->
         <script src="https://code.jquery.com/jquery-1.12.4.min.js"></script>
     </head>
@@ -37,6 +86,19 @@ and open the template in the editor.
                 </div>
                 <button type="button" class="slide-left"> << </button>
                 <button type="button" class="slide-right"> >> </button>
+            </div>
+        </div>
+        
+        <div class="modal-bg">
+            <div class="modal-positioning">
+                <div class="modal-window">
+                    <img src="imgs/ec-img-2.jpg" alt="Ez a második kép" />
+                    <div class="modal-caption">
+                        <span class="img-number">1</span> of <span class="img-count">10</span> - <strong>Ez a második kép</strong>
+                    </div>
+                    <button class="modal-button-left"><<</button>
+                    <button class="modal-button-right">>></button>
+                </div>
             </div>
         </div>
         

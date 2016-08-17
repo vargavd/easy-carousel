@@ -35,7 +35,22 @@
             buttonBackground: 'rgba(255, 255, 255, 0.6)',
             buttonHoverBackground: 'white',
             buttonHoverBorder: '1px solid #bbb',
-            secondsBetweenSlide: 3
+            secondsBetweenSlide: 3,
+            modalBackground: 'rgba(0, 0, 0, 0.8)',
+            modalWindowBackground: 'white',
+            modalWindowBorder: '1px solid white',
+            modalCaptionFontSize: '20px',
+            modalCaptionColor: '#888',
+            modalCaptionImgTextColor: '#666',
+            modalButtonBackground: '#666',
+            modalButtonHoverBackground: '#666',
+            modalButtonColor: '#ddd',
+            modalButtonHoverColor: '#ddd',
+            modalButtonBorder: '1px solid #333',
+            modalButtonHoverBorder: '1px solid #333',
+            modalButtonPadding: '3px 7px',
+            modalButtonMargin: '5px 20px',
+            modalButtonFontWeight: 'bold'
         },
         
         // inline style maker constructor, you can give any number of style:
@@ -70,8 +85,19 @@
                             
                     return styleString.trim();
                 },
-                reset = function () {
+                reset = function (styleAttr) {
+                    var styleAttrParts,
+                        styleParts;
+                       
                     styles = [];
+                    styleAttrParts = (typeof styleAttr === 'string') ? styleAttr.split(';') : [];
+                    
+                    $.each(styleAttrParts, function (index, style) {
+                        if (style.includes(':')) {
+                            styleParts = style.split(':');
+                            styles.push([styleParts[0].trim(), styleParts[1].trim()]);
+                        }
+                    });
                 };
             
             $.each(arguments, function (index, arg) {
@@ -132,11 +158,19 @@
     $.fn.easyCarousel = function (settings) {
         var 
             // DOM elements
-            $wrapper = $(this),
-            $imgWrapper = $('<div>'),
-            $imgList = $('<ul>'),
-            $buttonLeft = $('<button>'),
-            $buttonRight = $('<button>'),
+            $wrapper          = $(this),
+            $imgWrapper       = $('<div>'),
+            $imgList          = $('<ul>'),
+            $buttonLeft       = $('<button>'),
+            $buttonRight      = $('<button>'),
+            $modalBg          = $('<div>'),
+            $modalPos         = $('<div>'),
+            $modalWindow      = $('<div>'),
+            $modalImg         = $('<img>'),
+            $modalCaption     = $('<div>'),
+            $modalImgText     = $('<strong>'),
+            $modalButtonLeft  = $('<button>'),
+            $modalButtonRight = $('<button>'),
             
             // imgs
             $imgs = $wrapper.find('img').detach(),
@@ -150,12 +184,12 @@
             },
                     
             // sizes and positions
-            wrapperWidth, imgListWidth;
-            
-        settings = $.extend({}, settings, defaultSettings);
+            wrapperWidth, imgListWidth,
+                    
+            // main functions
+            calculation, domCreation, sliderManaging;
         
-        // calculate the positions and sizes
-        (function () {
+        calculation    = function () {
             var 
                 // removing units from the settings
                 imgWidth       = toValue(settings.imgWidth),
@@ -165,15 +199,31 @@
             // actual calculation
             imgListWidth  = (imgWidth + imgSpace) * $imgs.length + 'px';
             wrapperWidth  = (imgWidth + imgSpace) * settings.visibleImgCount - wrapperPadding + 'px';
-        }());
-        
-        // creating the DOM
-        (function () {
-            // clear the wrapper
+        };
+        domCreation    = function () {
+            var createSlider, createModal;
+            
+            createSlider = function () {
+                // clear the wrapper
             $wrapper.empty();
 
             // insert elements
-            $wrapper.append($imgWrapper.append($imgList), $buttonLeft.text('<<'), $buttonRight.text('>>'));
+            $modalBg.append(
+                $modalPos.append(
+                    $modalWindow.append(
+                        $modalImg,
+                        $modalCaption.append(
+                            '<span></span> of <span></span> - ',
+                            $modalImgText,
+                            $modalButtonLeft.text('<<'), 
+                            $modalButtonRight.text('>>')))));
+                            
+            $wrapper.append(
+                $imgWrapper.append(
+                    $imgList), 
+                $buttonLeft.text('<<'), 
+                $buttonRight.text('>>'),
+                $modalBg);
 
             // insert images and style them
             $imgs.each(function () {
@@ -238,44 +288,100 @@
 
             sm.addStyle('margin-left', '10px');
             $buttonRight.attr('style', sm.getStyle());
-
+            
+            // button style events
             $([$buttonLeft[0], $buttonRight[0]])
                     .mouseenter(function () {
                         var $button = $(this);
 
-                        sm.reset();
-                        sm.addStyle('position',         'absolute');
-                        sm.addStyle('left',             '50%');
-                        sm.addStyle('bottom',           '-14px');
+                        sm.reset($button.attr('style'));
                         sm.addStyle('border',           settings.buttonHoverBorder);
                         sm.addStyle('background-color', settings.buttonHoverBackground);
-                        sm.addStyle('cursor',           'pointer');
-                        sm.addStyle('width',            settings.buttonWidth);
-                        sm.addStyle('height',           settings.buttonHeight);
-                        sm.addStyle('padding',          '0');
-                        sm.addStyle('margin-left',      $buttonLeft.is($button) ? '-59px' : '10px');
                         $button.attr('style', sm.getStyle());
                     })
                     .mouseleave(function () {
                         var $button = $(this);
 
-                        sm.reset();
-                        sm.addStyle('position',         'absolute');
-                        sm.addStyle('left',             '50%');
-                        sm.addStyle('bottom',           '-14px');
+                        sm.reset($button.attr('style'));
                         sm.addStyle('border',           settings.buttonBorder);
                         sm.addStyle('background-color', settings.buttonBackground);
-                        sm.addStyle('cursor',           'pointer');
-                        sm.addStyle('width',            settings.buttonWidth);
-                        sm.addStyle('height',           settings.buttonHeight);
-                        sm.addStyle('padding',          '0');
-                        sm.addStyle('margin-left',      $buttonLeft.is($button) ? '-59px' : '10px');
                         $button.attr('style', sm.getStyle());
                     });
-        }());
-        
-        // manage the slider
-        (function () {
+            };
+            createModal = function () {
+                // style modal background
+            sm.reset();
+            sm.addStyle('background', settings.modalBackground);
+            sm.addStyle('position',   'absolute');
+            sm.addStyle('height',     '100%');
+            sm.addStyle('width',      '100%');
+            sm.addStyle('top',        '0');
+            sm.addStyle('left',       '0');
+            sm.addStyle('display',    'table');
+            $modalBg.attr('style', sm.getStyle());
+            
+            // style modal positioning div
+            sm.reset();
+            sm.addStyle('display',        'table-cell');
+            sm.addStyle('height',         '100%');
+            sm.addStyle('vertical-align', 'middle');
+            sm.addStyle('text-align',     'center');
+            $modalPos.attr('style', sm.getStyle());
+            
+            // style modal window
+            sm.reset();
+            sm.addStyle('background', settings.modalWindowBackground);
+            sm.addStyle('border',     settings.modalWindowBorder);
+            sm.addStyle('width',      '70%');
+            sm.addStyle('margin',     '0 auto');
+            $modalWindow.attr('style', sm.getStyle());
+            
+            // style modal img and caption
+            $modalImg.attr('style', 'width: 100%');
+            
+            sm.reset();
+            sm.addStyle('font-size', settings.modalCaptionFontSize);
+            sm.addStyle('color',     settings.modalCaptionColor);
+            $modalCaption.attr('style', sm.getStyle());
+            
+            $modalImgText.attr('style', 
+                               'color: ' + settings.modalCaptionImgTextColor);
+            
+            sm.reset();
+            sm.addStyle('background',  settings.modalButtonBackground);
+            sm.addStyle('color',       settings.modalButtonColor);
+            sm.addStyle('border',      settings.modalButtonBorder);
+            sm.addStyle('padding',     settings.modalButtonPadding);
+            sm.addStyle('font-weight', settings.modalButtonFontWeight);
+            sm.addStyle('margin',      settings.modalButtonMargin);
+            sm.addStyle('cursor',      'pointer');
+            
+            $([$modalButtonLeft[0], $modalButtonRight[0]])
+                    .attr('style', sm.getStyle())
+                    .mouseenter(function () {
+                        var $button = $(this);
+
+                        sm.reset($button.attr('style'));
+                        sm.addStyle('color',            settings.modalButtonHoverColor);
+                        sm.addStyle('border',           settings.modalButtonHoverBorder);
+                        sm.addStyle('background-color', settings.modalButtonHoverBackground);
+                        $button.attr('style', sm.getStyle());
+                    })
+                    .mouseleave(function () {
+                        var $button = $(this);
+
+                        sm.reset($button.attr('style'));
+                        sm.addStyle('color',            settings.modalButtonColor);
+                        sm.addStyle('border',           settings.modalButtonBorder);
+                        sm.addStyle('background-color', settings.modalButtonBackground);
+                        $button.attr('style', sm.getStyle());
+                    });
+            };
+            
+            createSlider();
+            createModal();
+        };
+        sliderManaging = function () {
             var 
                 // sliding context
                 slideVal         = toValue(settings.imgWidth) + toValue(settings.imgSpace),
@@ -375,7 +481,18 @@
             
             // and let the sliding begin
             intervalId = setInterval(slideEvent, msBetweenSlides);
-        }());
+        };
+        
+        settings = $.extend({}, settings, defaultSettings);
+        
+        // calculate the positions and sizes
+        calculation();
+        
+        // creating the DOM
+        domCreation();
+        
+        // manage the slider
+        sliderManaging();
     };
     
     // ONLY FOR TEST
