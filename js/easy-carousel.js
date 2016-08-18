@@ -25,9 +25,10 @@
             wrapperBorder: '1px solid gray',
             wrapperPadding: '10px',
             wrapperBackground: 'black',
-            imgWidth: '180px',
+            imgWidth: '300px',
+            imgMaxHeight: '150px',
             imgSpace: '10px',
-            imgBorder: '10px solid white',
+            imgBorder: '5px solid white',
             visibleImgCount: 3,
             buttonWidth: '50px',
             buttonHeight: '25px',
@@ -177,6 +178,7 @@
             $modalButtonLeft  = $('<button>'),
             $modalButtonClose = $('<button>'),
             $modalButtonRight = $('<button>'),
+            $loaderImg        = $('<img>'),
             
             // imgs
             $imgs = $wrapper.find('img').detach(),
@@ -190,23 +192,31 @@
             },
                     
             // sizes and positions
-            wrapperWidth, imgListWidth,
+            wrapperWidth, imgListWidth, modalImgWidth, modalImgMaxHeight,
+                    
+            // img checker interval id
+            imgLoadedCheckerId,
                     
             // main functions
             calculation, domCreation, manageSliderAndModal;
         
-        calculation    = function () {
+        calculation       = function () {
             var 
                 // removing units from the settings
                 imgWidth       = toValue(settings.imgWidth),
                 imgSpace       = toValue(settings.imgSpace),
-                wrapperPadding = toValue(settings.wrapperPadding);
+                wrapperPadding = toValue(settings.wrapperPadding),
+                modalCaptionLH = toValue(settings.modalCaptionLineHeight);
                 
             // actual calculation
             imgListWidth  = (imgWidth + imgSpace) * $imgs.length + 'px';
             wrapperWidth  = (imgWidth + imgSpace) * settings.visibleImgCount - wrapperPadding + 'px';
+            
+            // for modal window
+            modalImgWidth = screen.width * 0.8;
+            modalImgMaxHeight = screen.height * 0.9 - modalCaptionLH;
         };
-        domCreation    = function () {
+        domCreation       = function () {
             var createSlider, createModal;
 
             createSlider = function () {
@@ -215,6 +225,7 @@
 
                 // insert elements                            
                 $wrapper.append(
+                    $loaderImg.attr('src', 'data:image/gif;base64,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'),
                     $imgWrapper.append(
                         $imgList), 
                     $buttonLeft.text('<<'), 
@@ -229,13 +240,10 @@
 
                     sm.reset();
                     sm.addStyle('float',         'left');
-                    sm.addStyle('overflow',      'hidden');
                     sm.addStyle('padding-right', settings.imgSpace);
-                    sm.addStyle('width',         settings.imgWidth);
                     $li.attr('style', sm.getStyle());
 
                     sm.reset();
-                    sm.addStyle('width',      '100%');
                     sm.addStyle('border',     settings.imgBorder);
                     sm.addStyle('box-sizing', 'border-box');
                     sm.addStyle('cursor',     'pointer');
@@ -253,6 +261,9 @@
                 sm.addStyle('padding',     settings.wrapperPadding);
                 $wrapper.attr('style', sm.getStyle());
 
+                // style loader img
+                $loaderImg.attr('style', 'display: none;');
+                
                 // style images wrapper
                 $imgWrapper.attr('style', 'overflow: hidden;');
 
@@ -262,7 +273,7 @@
                 sm.addStyle('height',               '100%');
                 sm.addStyle('padding',              '0');
                 sm.addStyle('margin',               '0');
-                sm.addStyle('list-style-type',      '0');
+                sm.addStyle('list-style-type',      'none');
                 sm.addStyle('-webkit-box-shadow',   '0px 0px 17px 0px rgba(0, 0, 0, 0.7)');
                 sm.addStyle('-moz-box-shadow',      '0px 0px 17px 0px rgba(0, 0, 0, 0.7)');
                 sm.addStyle('box-shadow',           '0px 0px 17px 0px rgba(0, 0, 0, 0.7)');
@@ -348,12 +359,8 @@
                 sm.reset();
                 sm.addStyle('background', settings.modalWindowBackground);
                 sm.addStyle('border',     settings.modalWindowBorder);
-                sm.addStyle('width',      '70%');
                 sm.addStyle('margin',     '0 auto');
                 $modalWindow.attr('style', sm.getStyle());
-
-                // style modal img
-                $modalImg.attr('style', 'width: 100%');
                 
                 // style modal info
                 $modalInfo.attr('style', 'position: relative');
@@ -515,10 +522,16 @@
                     var 
                         $img       = $imgs.eq(indexOfActiveImg),
                         imgSrc     = $img.attr('src'),
-                        imgText    = $img.attr('alt');
+                        imgText    = $img.attr('alt'),
+                        imgWidth   = modalImgWidth;
+                
+                    if ((imgWidth / $img.width()) * $img.height() > modalImgMaxHeight) {
+                        imgWidth = (modalImgMaxHeight / $img.height()) * $img.width();
+                    }
                 
                     $modalImg.attr('src', imgSrc);
                     $modalImg.attr('alt', imgText);
+                    $modalImg.attr('style', 'width: ' + imgWidth + 'px;');
                     
                     $modalNumber.text((indexOfActiveImg + 1) + '/' +  $imgs.length);
                     
@@ -591,8 +604,60 @@
         // creating the DOM
         domCreation();
         
-        // manage the action
-        manageSliderAndModal();
+        // hide the images and buttons until they are fully loaded
+        $imgWrapper.hide();
+        $buttonLeft.hide();
+        $buttonRight.hide();
+        
+        // show loader img
+        $loaderImg.show();
+        
+        // wait until images are fully loaded
+        imgLoadedCheckerId = setInterval(function () {
+            var 
+                i,
+                resizeImg = function () {
+                    var imgWidth  = this.width,
+                        imgHeight = this.height,
+                        maxWidth  = toValue(settings.imgWidth),
+                        maxHeight = toValue(settings.imgMaxHeight);
+
+                    if ((maxWidth / imgWidth) * imgHeight > maxHeight) {
+                        imgWidth  = imgWidth * (maxHeight / imgHeight);
+                        imgHeight = maxHeight;
+                    } else {
+                        imgHeight  = imgHeight * (maxWidth / imgWidth);
+                        imgWidth   = maxWidth;
+                    }
+                    
+                    this.width = imgWidth;
+                    this.height = imgHeight;
+                };
+            
+            // return if imgs are not loaded
+            for (i = 0; i < $imgs.length; i++) {
+                if ($imgs.eq(i).width() > 50) {
+                    return;
+                }
+            }
+            
+            // stop checking :)
+            clearInterval(imgLoadedCheckerId);
+            
+            // resize images
+            $imgs.each(resizeImg);
+            
+            // hide loader img
+            $loaderImg.hide();
+            
+            // show images and buttons again
+            $imgWrapper.show();
+            $buttonLeft.show();
+            $buttonRight.show();
+            
+            // start the action
+            manageSliderAndModal();
+        }, 300);
     };
     
     // ONLY FOR TEST
