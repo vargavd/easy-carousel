@@ -39,17 +39,20 @@
             modalBackground: 'rgba(0, 0, 0, 0.8)',
             modalWindowBackground: 'white',
             modalWindowBorder: '1px solid white',
+            modalNumberFontSize: '24px',
+            modalNumberColor: '#333',
             modalCaptionFontSize: '20px',
-            modalCaptionColor: '#888',
-            modalCaptionImgTextColor: '#666',
-            modalButtonBackground: '#666',
+            modalCaptionColor: '#666',
+            modalCaptionFontWeight: 'bold',
+            modalCaptionLineHeight: '30px',
+            modalButtonBackground: 'transparent',
             modalButtonHoverBackground: '#666',
-            modalButtonColor: '#ddd',
-            modalButtonHoverColor: '#ddd',
+            modalButtonColor: '#333',
+            modalButtonHoverColor: 'white',
             modalButtonBorder: '1px solid #333',
             modalButtonHoverBorder: '1px solid #333',
             modalButtonPadding: '3px 7px',
-            modalButtonMargin: '5px 20px',
+            modalButtonMargin: '0 20px',
             modalButtonFontWeight: 'bold'
         },
         
@@ -167,9 +170,12 @@
             $modalPos         = $('<div>'),
             $modalWindow      = $('<div>'),
             $modalImg         = $('<img>'),
+            $modalInfo        = $('<div>'),
+            $modalNumber      = $('<div>'),
             $modalCaption     = $('<div>'),
-            $modalImgText     = $('<strong>'),
+            $modalButtons     = $('<div>'),
             $modalButtonLeft  = $('<button>'),
+            $modalButtonClose = $('<button>'),
             $modalButtonRight = $('<button>'),
             
             // imgs
@@ -301,14 +307,21 @@
             createModal = function () {
                 // insert elements
                 $modalBg.append(
-                $modalPos.append(
-                    $modalWindow.append(
-                        $modalImg,
-                        $modalCaption.append(
-                            '<span></span> of <span></span> - ',
-                            $modalImgText),
-                        $modalButtonLeft.text('<<'), 
-                        $modalButtonRight.text('>>'))));
+                    $modalPos.append(
+                        $modalWindow.append(
+                            $modalImg,
+                            $modalInfo.append(
+                                $modalNumber,
+                                $modalButtons.append(
+                                    $modalButtonLeft.text('<<'),
+                                    $modalButtonClose.text('X'),
+                                    $modalButtonRight.text('>>')
+                                ),
+                                $modalCaption
+                            )
+                        )
+                    )
+                );
 
                 $wrapper.after($modalBg);
                 
@@ -339,16 +352,33 @@
                 sm.addStyle('margin',     '0 auto');
                 $modalWindow.attr('style', sm.getStyle());
 
-                // style modal img and caption
+                // style modal img
                 $modalImg.attr('style', 'width: 100%');
+                
+                // style modal info
+                $modalInfo.attr('style', 'position: relative');
 
+                // style modal numbers
                 sm.reset();
-                sm.addStyle('font-size', settings.modalCaptionFontSize);
-                sm.addStyle('color',     settings.modalCaptionColor);
+                sm.addStyle('position',  'absolute');
+                sm.addStyle('font-size', settings.modalNumberFontSize);
+                sm.addStyle('color',     settings.modalNumberColor);
+                $modalNumber.attr('style', sm.getStyle());
+                
+                // style modal caption
+                sm.reset();
+                sm.addStyle('font-weight', settings.modalCaptionFontWeight);
+                sm.addStyle('font-size',   settings.modalCaptionFontSize);
+                sm.addStyle('color',       settings.modalCaptionColor);
+                sm.addStyle('line-height', settings.modalCaptionLineHeight);
                 $modalCaption.attr('style', sm.getStyle());
 
-                $modalImgText.attr('style', 
-                                   'color: ' + settings.modalCaptionImgTextColor);
+                
+                // style modal buttons
+                sm.reset();
+                sm.addStyle('position', 'absolute');
+                sm.addStyle('right',    '0');
+                $modalButtons.attr('style', sm.getStyle());
 
                 sm.reset();
                 sm.addStyle('background',  settings.modalButtonBackground);
@@ -359,7 +389,7 @@
                 sm.addStyle('margin',      settings.modalButtonMargin);
                 sm.addStyle('cursor',      'pointer');
 
-                $([$modalButtonLeft[0], $modalButtonRight[0]])
+                $([$modalButtonLeft[0], $modalButtonRight[0], $modalButtonClose[0]])
                         .attr('style', sm.getStyle())
                         .mouseenter(function () {
                             var $button = $(this);
@@ -490,10 +520,9 @@
                     $modalImg.attr('src', imgSrc);
                     $modalImg.attr('alt', imgText);
                     
-                    $modalCaption.find('span:first-of-type').text(indexOfActiveImg + 1);
-                    $modalCaption.find('span:last-of-type').text($imgs.length);
+                    $modalNumber.text((indexOfActiveImg + 1) + '/' +  $imgs.length);
                     
-                    $modalImgText.text(imgText);
+                    $modalCaption.text(imgText);
                     
                     sm.reset($modalBg.attr('style'));
                     sm.addStyle('display', 'table');
