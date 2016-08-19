@@ -1,12 +1,12 @@
 
 
-var gulp = require('gulp');
-var eslint = require('gulp-eslint');
+var gulp    = require('gulp');
+var eslint  = require('gulp-eslint');
 var jasmine = require('gulp-jasmine');
 
 // setting up jQuery
-var jsdom = require("jsdom").jsdom;
-var document = jsdom('<html></html>', {});
+var jsdom     = require("jsdom").jsdom;
+var document  = jsdom('<html></html>', {});
 global.jQuery = require('jquery')(document.defaultView);
 
 

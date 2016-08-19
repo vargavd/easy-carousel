@@ -23,6 +23,7 @@
   },
   "homepage": "https://github.com/vargavd/easy-carousel#readme",
   "devDependencies": {
+    "clear": "0.0.1",
     "eslint-config-strict": "^9.1.0",
     "gulp": "^3.9.1",
     "gulp-eslint": "^3.0.1",
