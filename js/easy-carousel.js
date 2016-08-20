@@ -53,7 +53,7 @@
             modalButtonBorder: '1px solid #333',
             modalButtonHoverBorder: '1px solid #333',
             modalButtonPadding: '3px 7px',
-            modalButtonMargin: '0 20px',
+            modalButtonMargin: '0 10px',
             modalButtonFontWeight: 'bold'
         },
         
@@ -190,6 +190,19 @@
             toValue = function (value) {
                 return parseInt(value.replaceAll('px', '').replaceAll('em', ''));
             },
+            style   = function ($elem, styles, origStyle) {
+                if (origStyle) {
+                    sm.reset($elem.attr('style'));
+                } else {
+                    sm.reset();
+                }
+                
+                $.each(styles, function (index, stylePair) {
+                    sm.addStyle(stylePair[0], stylePair[1]);
+                });
+                
+                $elem.attr('style', sm.getStyle());
+            },
                     
             // sizes and positions
             wrapperWidth, imgListWidth, modalImgWidth, modalImgMaxHeight,
@@ -274,6 +287,9 @@
             }
             
             wrapperWidth -= imgSpace;
+            
+            modalImgWidth = 0.9 * screen.width;
+            modalImgMaxHeight = 0.8 * screen.height;
         };
         domCreation           = function () {
             var createSlider, createModal;
@@ -375,6 +391,8 @@
                         });
             };
             createModal = function () {
+                var $buttons = $([$modalButtonLeft[0], $modalButtonRight[0], $modalButtonClose[0]]);
+                
                 // insert elements
                 $modalBg.append(
                     $modalPos.append(
@@ -396,67 +414,73 @@
                 $wrapper.after($modalBg);
                 
                 // style modal background
-                sm.reset();
-                sm.addStyle('background', settings.modalBackground);
-                sm.addStyle('position',   'absolute');
-                sm.addStyle('height',     '100%');
-                sm.addStyle('width',      '100%');
-                sm.addStyle('top',        '0');
-                sm.addStyle('left',       '0');
-                sm.addStyle('display',    'none');
-                $modalBg.attr('style', sm.getStyle());
+                style($modalBg, [
+                    ['background', settings.modalBackground],
+                    ['position',   'absolute'],
+                    ['height',     '100%'],
+                    ['width',      '100%'],
+                    ['top',        '0'],
+                    ['left',       '0'],
+                    ['display',    'none']
+                ]);
 
                 // style modal positioning div
-                sm.reset();
-                sm.addStyle('display',        'table-cell');
-                sm.addStyle('height',         '100%');
-                sm.addStyle('vertical-align', 'middle');
-                sm.addStyle('text-align',     'center');
-                $modalPos.attr('style', sm.getStyle());
+                style($modalPos, [
+                    ['display',        'table-cell'],
+                    ['height',         '100%'],
+                    ['vertical-align', 'middle'],
+                    ['text-align',     'center']
+                ]);
 
                 // style modal window
-                sm.reset();
-                sm.addStyle('background', settings.modalWindowBackground);
-                sm.addStyle('border',     settings.modalWindowBorder);
-                sm.addStyle('margin',     '0 auto');
-                $modalWindow.attr('style', sm.getStyle());
+                style($modalPos, [
+                    ['background', settings.modalWindowBackground],
+                    ['border',     settings.modalWindowBorder],
+                    ['margin',     '0 auto'],
+                    ['display',    'inline-block']
+                ]);
                 
                 // style modal info
                 $modalInfo.attr('style', 'position: relative');
 
                 // style modal numbers
-                sm.reset();
-                sm.addStyle('position',  'absolute');
-                sm.addStyle('font-size', settings.modalNumberFontSize);
-                sm.addStyle('color',     settings.modalNumberColor);
-                $modalNumber.attr('style', sm.getStyle());
+                style($modalPos, [
+                    ['font-size', settings.modalNumberFontSize],
+                    ['color',     settings.modalNumberColor],
+                    ['float',     'left'],
+                    ['margin', '0 5px']
+                ]);
                 
                 // style modal caption
-                sm.reset();
-                sm.addStyle('font-weight', settings.modalCaptionFontWeight);
-                sm.addStyle('font-size',   settings.modalCaptionFontSize);
-                sm.addStyle('color',       settings.modalCaptionColor);
-                sm.addStyle('line-height', settings.modalCaptionLineHeight);
-                $modalCaption.attr('style', sm.getStyle());
-
+                style($modalPos, [
+                    ['font-weight',   settings.modalCaptionFontWeight],
+                    ['font-size',     settings.modalCaptionFontSize],
+                    ['color',         settings.modalCaptionColor],
+                    ['line-height',   settings.modalCaptionLineHeight],
+                    ['float',         'left'],
+                    ['max-width',     '50px'],
+                    ['white-space',   'nowrap'],
+                    ['overflow',      'hidden'],
+                    ['text-overflow', 'ellipsis']
+                ]);
                 
                 // style modal buttons
-                sm.reset();
-                sm.addStyle('position', 'absolute');
-                sm.addStyle('right',    '0');
-                $modalButtons.attr('style', sm.getStyle());
+                style($modalPos, [
+                    ['position', 'absolute'],
+                    ['right',    '0']
+                ]);
 
-                sm.reset();
-                sm.addStyle('background',  settings.modalButtonBackground);
-                sm.addStyle('color',       settings.modalButtonColor);
-                sm.addStyle('border',      settings.modalButtonBorder);
-                sm.addStyle('padding',     settings.modalButtonPadding);
-                sm.addStyle('font-weight', settings.modalButtonFontWeight);
-                sm.addStyle('margin',      settings.modalButtonMargin);
-                sm.addStyle('cursor',      'pointer');
+                style($buttons, [
+                    ['background',  settings.modalButtonBackground],
+                    ['color',       settings.modalButtonColor],
+                    ['border',      settings.modalButtonBorder],
+                    ['padding',     settings.modalButtonPadding],
+                    ['font-weight', settings.modalButtonFontWeight],
+                    ['margin',      settings.modalButtonMargin],
+                    ['cursor',      'pointer']
+                ]);
 
-                $([$modalButtonLeft[0], $modalButtonRight[0], $modalButtonClose[0]])
-                        .attr('style', sm.getStyle())
+                $buttons
                         .mouseenter(function () {
                             var $button = $(this);
 
@@ -623,11 +647,11 @@
                 
                 // sliding events
                 slideEvent = function () {                    
-                    if (currentShownImgIndex === 0) {
-                        slideFront();
+                    if (currentShownImgIndex === maxIndex) {
+                        slideBack();
                     }
                     else {
-                        slideRight();
+                        slideLeft();
                     }
                 },
                 leftClicked = function () {
@@ -680,13 +704,15 @@
                         imgText    = $img.attr('alt'),
                         imgWidth   = modalImgWidth;
                 
-                    if ((imgWidth / $img.width()) * $img.height() > modalImgMaxHeight) {
-                        imgWidth = (modalImgMaxHeight / $img.height()) * $img.width();
-                    }
                 
                     $modalImg.attr('src', imgSrc);
                     $modalImg.attr('alt', imgText);
-                    $modalImg.attr('style', 'width: ' + imgWidth + 'px;');
+                    $modalImg.attr('style', 'max-width: ' + imgWidth + 'px;');
+                    
+                    if ($modalImg[0].height > modalImgMaxHeight) {
+                        imgWidth *= modalImgMaxHeight / $modalImg[0].height;
+                        $modalImg.attr('style', 'width: ' + imgWidth + 'px;');
+                    }
                     
                     $modalNumber.text((indexOfActiveImg + 1) + '/' +  $imgs.length);
                     
@@ -695,6 +721,10 @@
                     sm.reset($modalBg.attr('style'));
                     sm.addStyle('display', 'table');
                     $modalBg.attr('style', sm.getStyle());
+                    
+                    sm.reset($modalCaption.attr('style'));
+                    sm.addStyle('max-width', imgWidth - $modalNumber.width() - $modalButtons.width() - 10 + 'px');
+                    $modalCaption.attr('style', sm.getStyle());
                 },
                         
                 // modal events
