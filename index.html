@@ -15,14 +15,27 @@ and open the template in the editor.
     </head>
     <body style="background-color: #333; height: 100%;">
         <div style="width: 800px; height: 200px; margin: 50px auto; text-align: center;">
-            <div class="easy-carousel">
-                <img src="imgs/ec-img-0.jpg" alt="Ez a nulladik kép" />
-                <img src="imgs/ec-img-1.jpg" alt="Ez a feles kép Ez a feles kép Ez a feles kép Ez a feles kép Ez a feles kép" />
-                <img src="imgs/ec-img-2.jpg" alt="Ez az első kép" />
-                <img src="imgs/ec-img-3.jpg" alt="Ez a második kép" />
-                <img src="imgs/ec-img-4.jpg" alt="Ez a harmadik kép" />
-                <img src="imgs/ec-img-5.jpg" alt="Ez a negyedik kép" />
-                <img src="imgs/ec-img-6.jpg" alt="Ez az ötödik kép" />
+            <!-- images with different sizes -->
+            <div id="easy-carousel-1">
+                <img src="imgs/1/ec-img-0.jpg" alt="Lorem ipsum dolor sit amet, consectetur adipiscing elit" />
+                <img src="imgs/1/ec-img-1.jpg" alt="Lorem ipsum dolor sit amet, consectetur adipiscing elit" />
+                <img src="imgs/1/ec-img-2.jpg" alt="Lorem ipsum dolor sit amet, consectetur adipiscing elit" />
+                <img src="imgs/1/ec-img-3.jpg" alt="Lorem ipsum dolor sit amet, consectetur adipiscing elit" />
+                <img src="imgs/1/ec-img-4.jpg" alt="Lorem ipsum dolor sit amet, consectetur adipiscing elit" />
+                <img src="imgs/1/ec-img-5.jpg" alt="Lorem ipsum dolor sit amet, consectetur adipiscing elit" />
+                <img src="imgs/1/ec-img-6.jpg" alt="Lorem ipsum dolor sit amet, consectetur adipiscing elit" />
+            </div>
+        </div>
+        
+        <div style="width: 800px; height: 200px; margin: 50px auto; text-align: center;">
+            <!-- images with the same size -->
+            <div id="easy-carousel-2">
+                <img src="imgs/2/1.jpg" alt="Lorem ipsum dolor sit amet, consectetur adipiscing elit" />
+                <img src="imgs/2/2.jpg" alt="Lorem ipsum dolor sit amet, consectetur adipiscing elit" />
+                <img src="imgs/2/3.jpg" alt="Lorem ipsum dolor sit amet, consectetur adipiscing elit" />
+                <img src="imgs/2/4.jpg" alt="Lorem ipsum dolor sit amet, consectetur adipiscing elit" />
+                <img src="imgs/2/5.jpg" alt="Lorem ipsum dolor sit amet, consectetur adipiscing elit" />
+                <img src="imgs/2/6.jpg" alt="Lorem ipsum dolor sit amet, consectetur adipiscing elit" />
             </div>
         </div>
         
@@ -30,7 +43,9 @@ and open the template in the editor.
         <script src="js/easy-carousel.js"></script>
         <script>
             $(function () {
-                $('.easy-carousel').easyCarousel();
+                $('#easy-carousel-1').easyCarousel();
+                
+                $('#easy-carousel-2').easyCarousel();
             });
         </script>
     </body>

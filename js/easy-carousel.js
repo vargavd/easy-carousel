@@ -205,7 +205,7 @@
             },
                     
             // sizes and positions
-            wrapperWidth, imgListWidth, modalImgWidth, modalImgMaxHeight,
+            wrapperWidth, imgListWidth, modalImgWidth, modalImgMaxHeight, modalImgMaxRatio,
                     
             // main functions
             waitUntilImagesLoaded, calculation, domCreation, setUpSliderAndModal;
@@ -256,6 +256,7 @@
                 processImg = function () {
                     var imgWidth  = this.width,
                         imgHeight = this.height,
+                        imgRatio  = this.width / this.height,
                         maxWidth  = toValue(settings.imgWidth),
                         maxHeight = toValue(settings.imgMaxHeight);
 
@@ -274,6 +275,8 @@
                     this.width = imgWidth;
                     this.height = imgHeight;
                     
+                    $(this).attr("data-ratio", imgRatio.toFixed(2));
+                    
                     imgListWidth += imgWidth + imgSpace;
                 };
                 
@@ -290,6 +293,8 @@
             
             modalImgWidth = 0.9 * screen.width;
             modalImgMaxHeight = 0.8 * screen.height;
+            
+            modalImgMaxRatio = modalImgWidth / modalImgMaxHeight;
         };
         domCreation           = function () {
             var createSlider, createModal;
@@ -329,6 +334,7 @@
                 // style wrapper
                 sm.reset();
                 sm.addStyle('position',    'relative');
+                sm.addStyle('z-index',     '0');
                 sm.addStyle('margin',      '0 auto');
                 sm.addStyle('width',       wrapperWidth + 'px');
                 sm.addStyle('border',      settings.wrapperBorder);
@@ -417,6 +423,7 @@
                 style($modalBg, [
                     ['background', settings.modalBackground],
                     ['position',   'absolute'],
+                    ['z-index',    '100'],
                     ['height',     '100%'],
                     ['width',      '100%'],
                     ['top',        '0'],
@@ -433,7 +440,7 @@
                 ]);
 
                 // style modal window
-                style($modalPos, [
+                style($modalWindow, [
                     ['background', settings.modalWindowBackground],
                     ['border',     settings.modalWindowBorder],
                     ['margin',     '0 auto'],
@@ -444,7 +451,7 @@
                 $modalInfo.attr('style', 'position: relative');
 
                 // style modal numbers
-                style($modalPos, [
+                style($modalNumber, [
                     ['font-size', settings.modalNumberFontSize],
                     ['color',     settings.modalNumberColor],
                     ['float',     'left'],
@@ -452,7 +459,7 @@
                 ]);
                 
                 // style modal caption
-                style($modalPos, [
+                style($modalCaption, [
                     ['font-weight',   settings.modalCaptionFontWeight],
                     ['font-size',     settings.modalCaptionFontSize],
                     ['color',         settings.modalCaptionColor],
@@ -465,7 +472,7 @@
                 ]);
                 
                 // style modal buttons
-                style($modalPos, [
+                style($modalButtons, [
                     ['position', 'absolute'],
                     ['right',    '0']
                 ]);
@@ -702,16 +709,16 @@
                         $img       = $imgs.eq(indexOfActiveImg),
                         imgSrc     = $img.attr('src'),
                         imgText    = $img.attr('alt'),
+                        imgRatio   = $img.attr('data-ratio'),
                         imgWidth   = modalImgWidth;
-                
                 
                     $modalImg.attr('src', imgSrc);
                     $modalImg.attr('alt', imgText);
                     $modalImg.attr('style', 'max-width: ' + imgWidth + 'px;');
                     
-                    if ($modalImg[0].height > modalImgMaxHeight) {
-                        imgWidth *= modalImgMaxHeight / $modalImg[0].height;
-                        $modalImg.attr('style', 'width: ' + imgWidth + 'px;');
+                    if (imgRatio < modalImgMaxRatio) {
+                        imgWidth *= imgRatio / modalImgMaxRatio;
+                        $modalImg.attr('style', 'max-width: ' + imgWidth + 'px;');
                     }
                     
                     $modalNumber.text((indexOfActiveImg + 1) + '/' +  $imgs.length);
