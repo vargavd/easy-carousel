@@ -227,7 +227,7 @@
                     
                     // return if imgs are not loaded yet
                     for (i = 0; i < $imgs.length; i++) {
-                        if ($imgs.eq(i).width() > 50) {
+                        if ($imgs.eq(i)[0].width < 50) {
                             return;
                         }
                     }
