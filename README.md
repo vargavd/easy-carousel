@@ -1,6 +1,8 @@
 Easy Carousel
 ===================
 
+Image slideshow and carousel plugin for jQuery.
+
 Features
 -------------
   - The design is completely customizable with parameters.
@@ -40,29 +42,126 @@ Examples
 ```
 *More examples are coming.*
 
-Parameters
+## Parameters
+
+*The parameter names are self explanatory most of the time. I made a list about the html elements which the rules apply to.*
+
+Behavioral Parameters
 -------------
 
-**wrapperBorder:** The border css rule for the wrapper (which you select with jQuery).  
+**visibleImgCount:** Number of the items visible at once in the slider.  
+*Default:*  `3`
+
+**secondsBetweenSlide:** Time between 2 slide in seconds.  
+*Default:*  `3`
+
+Slider Style Parameters
+-------------
+
+*wrapper:* This is the most outer wrapper of the slider. It is targeted by jQuery when the plugin initialized.
+
+**wrapperBorder:**  
 *Default:*  `'1px solid gray'`
 
-**wrapperPadding:** Wrapper padding.  
+**wrapperPadding:**  
 *Default:*  `'10px'`
 
-**wrapperBackground:** Background css rule for wrapper.  
+**wrapperBackground:**  
 *Default:*  `'black'`
 
-**imgWidth:** Image width in the carousel.  
-*Note: The current width can be smaller if the image cannot be display within the maximum height (next param).*  
+**imgWidth:**  
+*Note:* The current width can be smaller if the image cannot be display within the maximum height (next param).  
 *Default:*  `'300px'`
 
-**imgMaxHeight:** Maximum image height in the carousel.  
+**imgMaxHeight:**  
 *Default:*  `'150px'`
 
-**imgSpace:** Space between the images in the carousel.  
+**imgSpace:**  
 *Default:*  `'10px'`
 
-*** More parameters are coming ***
+**imgBorder:**  
+*Default:*  `'5px solid white'`
+
+**buttonWidth:**  
+*Default:*  `'50px'`
+
+**buttonHeight:**  
+*Default:*  `'25px'`
+
+**buttonBorder:**  
+*Default:*  `'1px solid #bbb'`
+
+**buttonBackground:**  
+*Default:*  `'rgba(255, 255, 255, 0.6)'`
+
+**buttonHoverBackground:**  
+*Default:*  `'white'`
+
+**buttonHoverBorder:**  
+*Default:*  `'1px solid #bbb'`
+
+Modal Style Parameters
+-------------
+
+*modal:* This is the background behind the modal window. Usually dark transparent.
+*modalWindow:* This is the actual "window" which pops up.
+*modalNumber:* The "current img number/number of images" wrapper.
+*modalCaption:* The alt text of the image shown here.
+*modalButton:* The three button (<< X >>) in the modal window.
+
+**modalBackground:**   
+*Default:*  `'rgba(0, 0, 0, 0.8)'`
+
+**modalWindowBackground:**   
+*Default:*  `'white'`
+
+**modalWindowBorder:**   
+*Default:*  `'1px solid white'`
+
+**modalNumberFontSize:**   
+*Default:*  `'24px'`
+
+**modalNumberColor:**   
+*Default:*  `'#333'`
+
+**modalCaptionFontSize:**   
+*Default:*  `'20px'`
+
+**modalCaptionColor:**   
+*Default:*  `'#666'`
+
+**modalCaptionFontWeight:**   
+*Default:*  `'bold'`
+
+**modalCaptionLineHeight:**   
+*Default:*  `'30px'`
+
+**modalButtonBackground:**   
+*Default:*  `'transparent'`
+
+**modalButtonHoverBackground:**   
+*Default:*  `'#666'`
+
+**modalButtonColor:**   
+*Default:*  `'#333'`
+
+**modalButtonHoverColor:**   
+*Default:*  `'white'`
+
+**modalButtonBorder:**   
+*Default:*  `'1px solid #333'`
+
+**modalButtonHoverBorder:**   
+*Default:*  `'1px solid #333'`
+
+**modalButtonPadding:**   
+*Default:*  `'3px 7px'`
+
+**modalButtonMargin:**   
+*Default:*  `'0 10px'`
+
+**modalButtonFontWeight:**   
+*Default:*  `'bold'`
 
 
 ### License: GPL2
