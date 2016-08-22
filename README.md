@@ -9,12 +9,13 @@ Features
 -------------
   - The design is completely customizable with parameters.
   - Easy to use, you dont need to add any parameters since everything has a default value (see below).
-  - Define the number of the visible images.
+  - You can define the number of the visible images.
   - You can control the time between sliding.
+  - The initialization waits for the images loading.
   - Modal and lightbox funvtionality (you can switch between images in the modal window as well).
   - The alt text of the image will be caption in the modal window.
 
-Examples
+Example
 -------------
 *Task:* We have 10 images, but we want to display only 5 at once with 200px width and slide them every 5 seconds.
 
@@ -42,7 +43,7 @@ Examples
 </script>
 ...
 ```
-*More examples are coming.*
+For more example, visit the [GitHub Sample page](https://vargavd.github.io/easy-carousel/)
 
 ## Parameters
 

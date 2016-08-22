@@ -1,9 +1,4 @@
 <!DOCTYPE html>
-<!--
-To change this license header, choose License Headers in Project Properties.
-To change this template file, choose Tools | Templates
-and open the template in the editor.
--->
 <html>
     <head>
         <title>Easy Carousel example</title>
@@ -12,24 +7,77 @@ and open the template in the editor.
         
         <!-- 3rd party js -->
         <script src="https://code.jquery.com/jquery-1.12.4.min.js"></script>
+        
+        <style>
+            body {
+                background-color: #333;
+                height: 100%;
+                font-size: 16px;
+            }
+            
+            .ec-example {
+                width: 1000px;
+                margin: 50px auto;
+                color: #ccc;
+            }
+            
+            .code {
+                font-family: Monaco, MonoSpace;
+                border: 1px solid gray;
+                background: #222;
+                padding: 10px;
+                font-size: 14px;
+                margin-bottom: 10px;
+            }
+            
+            a {
+                color: #0074D9;
+                font-weight: bold;
+                text-decoration: none;
+            }
+        </style>
     </head>
-    <body style="background-color: #333; height: 100%;">
-        <div style="width: 800px; height: 200px; margin: 50px auto; text-align: center;">
-            <!-- images with different sizes -->
-            <div id="easy-carousel-1">
-                <img src="imgs/1/ec-img-0.jpg" alt="Lorem ipsum dolor sit amet, consectetur adipiscing elit" />
-                <img src="imgs/1/ec-img-1.jpg" alt="Lorem ipsum dolor sit amet, consectetur adipiscing elit" />
-                <img src="imgs/1/ec-img-2.jpg" alt="Lorem ipsum dolor sit amet, consectetur adipiscing elit" />
-                <img src="imgs/1/ec-img-3.jpg" alt="Lorem ipsum dolor sit amet, consectetur adipiscing elit" />
-                <img src="imgs/1/ec-img-4.jpg" alt="Lorem ipsum dolor sit amet, consectetur adipiscing elit" />
-                <img src="imgs/1/ec-img-5.jpg" alt="Lorem ipsum dolor sit amet, consectetur adipiscing elit" />
-                <img src="imgs/1/ec-img-6.jpg" alt="Lorem ipsum dolor sit amet, consectetur adipiscing elit" />
+    <body>
+        <div class="ec-example">
+            <h1>Easy Carousel plugin </h1>
+            <h2>Before the examples: </h2>
+            <ul>
+                <li>This is a img slideshow plugin for jQuery, with builtin lightbox capability.</li>
+                <li>For more information and the parameters, see the <a href='https://github.com/vargavd/easy-carousel/' target="_blank">github repo</a>.</li>
+                <li>You have to include jQuery, preferably in the head section:</li>
+            </ul>
+            <div class="code">
+                &lt;head&gt; <br />
+                &nbsp;&nbsp;    &lt;script src="https://code.jquery.com/jquery-1.12.4.min.js"&lt;&lt;/script&gt; <br />
+                &lt;/head&gt; <br />
+            </div>
+            <ul>
+                <li>The html code for the images is similar in every example:</li>
+            </ul>
+            <div class="code">
+                &lt;div id="easy-carousel-1"&gt; <br />
+                &nbsp;&nbsp;    &lt;img src="imgs/2/1.jpg" alt="Lorem ipsum dolor sit amet, consectetur adipiscing elit" /&gt; <br />
+                &nbsp;&nbsp;    &lt;img src="imgs/2/2.jpg" alt="Lorem ipsum dolor sit amet, consectetur adipiscing elit" /&gt; <br />
+                &nbsp;&nbsp;    &lt;img src="imgs/2/3.jpg" alt="Lorem ipsum dolor sit amet, consectetur adipiscing elit" /&gt; <br />
+                &nbsp;&nbsp;    &lt;img src="imgs/2/4.jpg" alt="Lorem ipsum dolor sit amet, consectetur adipiscing elit" /&gt; <br />
+                &nbsp;&nbsp;    &lt;img src="imgs/2/5.jpg" alt="Lorem ipsum dolor sit amet, consectetur adipiscing elit" /&gt; <br />
+                &nbsp;&nbsp;    &lt;img src="imgs/2/6.jpg" alt="Lorem ipsum dolor sit amet, consectetur adipiscing elit" /&gt; <br />
+                &lt;/div&gt; <br />
             </div>
         </div>
-        
-        <div style="width: 800px; height: 200px; margin: 50px auto; text-align: center;">
-            <!-- images with the same size -->
-            <div id="easy-carousel-2">
+
+        <div class="ec-example">
+            <h2>Example 1: </h2>
+            <ul>
+                <li>default parameters</li>
+                <li>images with same size</li>
+            </ul>
+            <div class="code">
+                &lt;script&gt; <br />
+                &nbsp;&nbsp;    $('#easy-carousel-1').easyCarousel(); <br />
+                &lt;/script&gt; <br />
+            </div>
+            <div id="easy-carousel-1">
                 <img src="imgs/2/1.jpg" alt="Lorem ipsum dolor sit amet, consectetur adipiscing elit" />
                 <img src="imgs/2/2.jpg" alt="Lorem ipsum dolor sit amet, consectetur adipiscing elit" />
                 <img src="imgs/2/3.jpg" alt="Lorem ipsum dolor sit amet, consectetur adipiscing elit" />
@@ -38,14 +86,95 @@ and open the template in the editor.
                 <img src="imgs/2/6.jpg" alt="Lorem ipsum dolor sit amet, consectetur adipiscing elit" />
             </div>
         </div>
+
+        <div class="ec-example">
+            <h2>Example 2: </h2>
+            <ul>
+                <li>custom image sizes and visible image number</li>
+                <li>images with different sizes</li>
+            </ul>
+            <div class="code">
+                &lt;script&gt; <br />
+                &nbsp;&nbsp;    $('#easy-carousel-2').easyCarousel({ <br />
+                &nbsp;&nbsp; &nbsp;&nbsp; imgWidth: '350px', <br />
+                &nbsp;&nbsp; &nbsp;&nbsp; imgMaxHeight: '200px', <br />
+                &nbsp;&nbsp; &nbsp;&nbsp; visibleImgCount: 4 <br />
+                &nbsp;&nbsp; }); <br />
+                &lt;/script&gt; <br />
+            </div>
+            <div id="easy-carousel-2">
+                <img src="imgs/1/ec-img-0.jpg" alt="Lorem ipsum dolor sit amet, consectetur adipiscing elit" />
+                <img src="imgs/1/ec-img-2.jpg" alt="Lorem ipsum dolor sit amet, consectetur adipiscing elit" />
+                <img src="imgs/1/ec-img-3.jpg" alt="Lorem ipsum dolor sit amet, consectetur adipiscing elit" />
+                <img src="imgs/1/ec-img-4.jpg" alt="Lorem ipsum dolor sit amet, consectetur adipiscing elit" />
+                <img src="imgs/1/ec-img-1.jpg" alt="Lorem ipsum dolor sit amet, consectetur adipiscing elit" />
+                <img src="imgs/1/ec-img-5.jpg" alt="Lorem ipsum dolor sit amet, consectetur adipiscing elit" />
+                <img src="imgs/1/ec-img-6.jpg" alt="Lorem ipsum dolor sit amet, consectetur adipiscing elit" />
+            </div>
+        </div>
         
+        <div class="ec-example">
+            <h2>Example 3: </h2>
+            <ul>
+                <li>custom style</li>
+                <li>images with different sizes</li>
+            </ul>
+            <div class="code">
+                &lt;script&gt; <br />
+                &nbsp;&nbsp;    $('#easy-carousel-3').easyCarousel({ <br />
+                &nbsp;&nbsp; &nbsp;&nbsp; wrapperBorder: '3px solid #666', <br />
+                &nbsp;&nbsp; &nbsp;&nbsp; wrapperBackground: 'white', <br />
+                &nbsp;&nbsp; &nbsp;&nbsp; imgBorder: '5px solid #999', <br />
+                &nbsp;&nbsp; &nbsp;&nbsp; buttonBackground: 'rgba(0, 0, 0, 0.6)', <br />
+                &nbsp;&nbsp; &nbsp;&nbsp; buttonColor: 'white', <br />
+                &nbsp;&nbsp; &nbsp;&nbsp; buttonHoverBackground: 'black', <br />
+                &nbsp;&nbsp; &nbsp;&nbsp; buttonBorder: '1px solid #222', <br />
+                &nbsp;&nbsp; &nbsp;&nbsp; buttonHoverBorder: '1px solid #444', <br />
+                &nbsp;&nbsp; &nbsp;&nbsp; modalWindowBackground: '#444', <br />
+                &nbsp;&nbsp; &nbsp;&nbsp; modalWindowBorder: '2px solid #444', <br />
+                &nbsp;&nbsp; &nbsp;&nbsp; modalNumberColor: '#ccc', <br />
+                &nbsp;&nbsp; &nbsp;&nbsp; modalCaptionColor: 'white', <br />
+                &nbsp;&nbsp; &nbsp;&nbsp; modalCaptionFontWeight: 'normal', <br />
+                &nbsp;&nbsp; &nbsp;&nbsp; modalButtonBackground: '#aaa', <br />
+                &nbsp;&nbsp; }); <br />
+                &lt;/script&gt; <br />
+            </div>
+            <div id="easy-carousel-3">
+                <img src="imgs/3/1.jpg" alt="Lorem ipsum dolor sit amet, consectetur adipiscing elit" />
+                <img src="imgs/3/2.jpg" alt="Lorem ipsum dolor sit amet, consectetur adipiscing elit" />
+                <img src="imgs/3/3.jpg" alt="Lorem ipsum dolor sit amet, consectetur adipiscing elit" />
+                <img src="imgs/3/4.jpg" alt="Lorem ipsum dolor sit amet, consectetur adipiscing elit" />
+                <img src="imgs/3/5.jpg" alt="Lorem ipsum dolor sit amet, consectetur adipiscing elit" />
+                <img src="imgs/3/6.jpg" alt="Lorem ipsum dolor sit amet, consectetur adipiscing elit" />
+                <img src="imgs/3/7.jpg" alt="Lorem ipsum dolor sit amet, consectetur adipiscing elit" />
+            </div>
+        </div>
         <!-- Easy Carousel -->
         <script src="js/easy-carousel.js"></script>
         <script>
-            $(function () {
-                $('#easy-carousel-1').easyCarousel();
+            $('#easy-carousel-1').easyCarousel();
                 
-                $('#easy-carousel-2').easyCarousel();
+            $('#easy-carousel-2').easyCarousel({
+                imgWidth: '350px',
+                imgMaxHeight: '200px',
+                visibleImgCount: 4
+            });
+            
+            $('#easy-carousel-3').easyCarousel({
+                wrapperBorder: '3px solid #666',
+                wrapperBackground: 'white',
+                imgBorder: '5px solid #999',
+                buttonBackground: 'rgba(0, 0, 0, 0.6)',
+                buttonColor: 'white',
+                buttonHoverBackground: 'black',
+                buttonBorder: '1px solid #222',
+                buttonHoverBorder: '1px solid #444',
+                modalWindowBackground: '#444',
+                modalWindowBorder: '2px solid #444',
+                modalNumberColor: '#ccc',
+                modalCaptionColor: 'white',
+                modalCaptionFontWeight: 'normal',
+                modalButtonBackground: '#aaa',
             });
         </script>
     </body>

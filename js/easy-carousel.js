@@ -3,7 +3,7 @@
  * A simple image carousel plugin, powered by jQuery.
  *
  * License: GPL2
- * made by VvD
+ * made by VargaVD
  */
 
 'use strict';
@@ -34,6 +34,8 @@
             buttonHeight: '25px',
             buttonBorder: '1px solid #bbb',
             buttonBackground: 'rgba(255, 255, 255, 0.6)',
+            buttonColor: 'black',
+            buttonFontWeight: 'bold',
             buttonHoverBackground: 'white',
             buttonHoverBorder: '1px solid #bbb',
             secondsBetweenSlide: 3,
@@ -275,7 +277,7 @@
                     this.width = imgWidth;
                     this.height = imgHeight;
                     
-                    $(this).attr("data-ratio", imgRatio.toFixed(2));
+                    $(this).attr('data-ratio', imgRatio.toFixed(2));
                     
                     imgListWidth += imgWidth + imgSpace;
                 };
@@ -335,7 +337,6 @@
                 sm.reset();
                 sm.addStyle('position',    'relative');
                 sm.addStyle('z-index',     '0');
-                sm.addStyle('margin',      '0 auto');
                 sm.addStyle('width',       wrapperWidth + 'px');
                 sm.addStyle('border',      settings.wrapperBorder);
                 sm.addStyle('background',  settings.wrapperBackground);
@@ -367,6 +368,8 @@
                 sm.addStyle('bottom',           '-14px');
                 sm.addStyle('border',           settings.buttonBorder);
                 sm.addStyle('background-color', settings.buttonBackground);
+                sm.addStyle('color',            settings.buttonColor);
+                sm.addStyle('font-weight',      settings.buttonFontWeight);
                 sm.addStyle('cursor',           'pointer');
                 sm.addStyle('width',            settings.buttonWidth);
                 sm.addStyle('height',           settings.buttonHeight);
@@ -422,7 +425,7 @@
                 // style modal background
                 style($modalBg, [
                     ['background', settings.modalBackground],
-                    ['position',   'absolute'],
+                    ['position',   'fixed'],
                     ['z-index',    '100'],
                     ['height',     '100%'],
                     ['width',      '100%'],
@@ -782,13 +785,14 @@
             $modalButtonRight.click(rightModalButtonClicked);
             $imgs.click(imgClicked);
             $modalBg.click(closeModal);
+            $modalButtonClose.click(closeModal);
             $modalWindow.click(modalWindowClicked);
             
             // and let the sliding begin
             intervalId = setInterval(slideEvent, msBetweenSlides);
         };
         
-        settings = $.extend({}, settings, defaultSettings);
+        settings = $.extend({}, defaultSettings, settings);
         
         waitUntilImagesLoaded(function () {
             calculation();
