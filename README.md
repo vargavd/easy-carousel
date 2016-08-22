@@ -46,31 +46,21 @@ Parameters
 **wrapperBorder:** The border css rule for the wrapper (which you select with jQuery).  
 *Default:*  `'1px solid gray'`
 
-#### wrapperPadding
-Wrapper padding.
+**wrapperPadding:** Wrapper padding.  
+*Default:*  `'10px'`
 
-*Default:*  **10px**
+**wrapperBackground: ** Background css rule for wrapper.  
+*Default:*  `'black'`
 
-#### wrapperBackground
-Background css rule for wrapper.
+**imgWidth: ** Image width in the carousel.  
+*Note: The current width can be smaller if the image cannot be display within the maximum height (next param).*  
+*Default:*  `'300px'`
 
-*Default:*  **black**
+**imgMaxHeight: ** Maximum image height in the carousel.  
+*Default:*  `'150px'`
 
-#### imgWidth
-Image width in the carousel. 
-
-*Note: The current width can be smaller if the image cannot be display within the maximum height (next param).*
-
-*Default:*  **300px**
-
-#### imgMaxHeight
-Maximum image height in the carousel.
-*Default:*  **150px**
-
-#### imgSpace
-Space between the images in the carousel.
-
-*Default:*  **10px**
+**imgSpace: ** Space between the images in the carousel.  
+*Default:*  `'10px'`
 
 *** More parameters are coming ***
 
