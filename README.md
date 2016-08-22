@@ -46,8 +46,7 @@ Examples
 
 *The parameter names are self explanatory most of the time. I made a list about the html elements which the rules apply to.*
 
-Behavioral Parameters
--------------
+### Behavioral Parameters
 
 **visibleImgCount:** Number of the items visible at once in the slider.  
 *Default:*  `3`
@@ -55,8 +54,7 @@ Behavioral Parameters
 **secondsBetweenSlide:** Time between 2 slide in seconds.  
 *Default:*  `3`
 
-Slider Style Parameters
--------------
+### Slider Style Parameters
 
 *wrapper:* This is the most outer wrapper of the slider. It is targeted by jQuery when the plugin initialized.
 
@@ -100,14 +98,13 @@ Slider Style Parameters
 **buttonHoverBorder:**  
 *Default:*  `'1px solid #bbb'`
 
-Modal Style Parameters
--------------
+### Modal Style Parameters
 
-*modal:* This is the background behind the modal window. Usually dark transparent.
-*modalWindow:* This is the actual "window" which pops up.
-*modalNumber:* The "current img number/number of images" wrapper.
-*modalCaption:* The alt text of the image shown here.
-*modalButton:* The three button (<< X >>) in the modal window.
+*modal:* This is the background behind the modal window. Usually dark transparent.  
+*modalWindow:* This is the actual "window" which pops up.  
+*modalNumber:* The "current img number/number of images" wrapper.  
+*modalCaption:* The alt text of the image shown here.  
+*modalButton:* The three button (<< X >>) in the modal window.  
 
 **modalBackground:**   
 *Default:*  `'rgba(0, 0, 0, 0.8)'`
