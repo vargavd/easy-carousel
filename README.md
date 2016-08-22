@@ -49,17 +49,17 @@ Parameters
 **wrapperPadding:** Wrapper padding.  
 *Default:*  `'10px'`
 
-**wrapperBackground: ** Background css rule for wrapper.  
+**wrapperBackground:** Background css rule for wrapper.  
 *Default:*  `'black'`
 
-**imgWidth: ** Image width in the carousel.  
+**imgWidth:** Image width in the carousel.  
 *Note: The current width can be smaller if the image cannot be display within the maximum height (next param).*  
 *Default:*  `'300px'`
 
-**imgMaxHeight: ** Maximum image height in the carousel.  
+**imgMaxHeight:** Maximum image height in the carousel.  
 *Default:*  `'150px'`
 
-**imgSpace: ** Space between the images in the carousel.  
+**imgSpace:** Space between the images in the carousel.  
 *Default:*  `'10px'`
 
 *** More parameters are coming ***
