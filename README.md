@@ -44,6 +44,7 @@ Parameters
 -------------
 
 **wrapperBorder:** The border css rule for the wrapper (which you select with jQuery).
+
 *Default:*  `'1px solid gray'`
 
 #### wrapperPadding
