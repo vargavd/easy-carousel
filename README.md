@@ -1,7 +1,7 @@
 Easy Carousel
 ===================
 
-Image slideshow and carousel plugin for jQuery.
+Image slideshow and carousel plugin for jQuery. You target the wrapper where the images are. Everything will be removed inside the wrapper, and the plugin will build its own DOM.
 
 Features
 -------------
