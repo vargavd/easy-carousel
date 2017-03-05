@@ -21,10 +21,6 @@ gulp.task('test', function () {
         .pipe(jasmine());
 });
 
-gulp.task('watch', function () {
+gulp.task('start-dev', ['eslint', 'test'], function () {
     gulp.watch(['./js/**/*.js'], ['eslint', 'test']);
-});
-
-gulp.task('default', function () {
-    
 });
