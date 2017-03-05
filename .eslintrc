@@ -29,6 +29,11 @@
         "radix": 0,
         "array-bracket-spacing": 0,
         "no-magic-numbers": 0,
-        "linebreak-style": 0
+        "linebreak-style": 0,
+        "no-mixed-operators": 0,
+        "no-throw-literal": 0,
+        "operator-linebreak": ["error", "after", { "overrides": { "?": "before", ":": "before" } }],
+        "no-inline-comments": 0,
+        "line-comment-position": 0
    }
 }
