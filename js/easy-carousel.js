@@ -335,8 +335,9 @@
 
                 // style wrapper
                 sm.reset();
-                sm.addStyle('position',    'relative');
                 sm.addStyle('z-index',     '0');
+                sm.addStyle('position',    'relative');
+                sm.addStyle('box-sizing',  'content-box');
                 sm.addStyle('width',       wrapperWidth + 'px');
                 sm.addStyle('border',      settings.wrapperBorder);
                 sm.addStyle('background',  settings.wrapperBackground);
